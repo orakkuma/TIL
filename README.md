@@ -44,3 +44,5 @@
    ```
    git push origin master
    ```
+
+동기부여 영상 : https://www.youtube.com/watch?v=V9AGvwPmnZU
