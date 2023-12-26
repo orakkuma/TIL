@@ -173,3 +173,71 @@ data
 ```
 ![Alt text](image-13.png)
 
+```python
+arr = np.empty((8, 4)) #랜덤한 숫자
+arr
+```
+![Alt text](image-14.png)
+
+```python
+arr1 = np.empty((8,4))
+
+for i in range(8):
+    arr[i] = i # broadcasting
+
+arr
+```
+![Alt text](image-15.png)
+
+```python
+# index를 list로 넘기기
+arr[[4, 3, 0, 6]] 
+# 해당 index 순서대로 array를 재배치
+```
+![Alt text](image-16.png)
+
+```python
+arr[[-1, -3, -5]]
+```
+![Alt text](image-17.png)
+
+```python
+# 배열 전치 (row/col 바꿈)
+arr = np.arange(15)
+arr
+```
+![Alt text](image-18.png)
+
+```python
+arr = np.arange(15).reshape(3, 5)
+arr
+```
+![Alt text](image-19.png)
+
+```python
+arr.T
+# Transpose
+```
+![Alt text](image-20.png)
+
+```python
+arr = np.random.randn(5, 4)
+arr
+```
+![Alt text](image-21.png)
+
+```python
+arr.mean()
+arr.sum() # 전체 총합
+arr.sum(0) # 각 열에 대한 합계
+arr.sum(1) # 각 행에 대한 합계
+
+# arr.mean() - 0.05824215844202137
+# arr.sum() - 1.1648431688404275
+
+# arr.sum(0)
+# array([ 1.8328776 ,  0.80500371, -1.49114569,  0.01810755])
+
+# arr.sum(1)
+# array([ 2.34557681,  2.66695324, -0.89594695, -0.29573005, -2.65600988])
+```
