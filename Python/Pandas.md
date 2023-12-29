@@ -277,5 +277,44 @@ df1, df2
 #  texas   6.0   7.0   8.0
 #  oregon  9.0  10.0  11.0
 ```
-```pyton
+```python
+# 없는 col + 있는 col => 전체 col NaN / 있는 row + 없는 row => 전제 Row Nan
+# 공통으로 존재하지 않으면 모두 NaN
+df1 + df2
+#         	 b	 c	 d	 e
+# colorado	NaN	NaN	NaN	NaN
+# ohio	    3.0	5.0	NaN	NaN
+# oregon	NaN	NaN	NaN	NaN
+# texas	    9.0	11.0 NaN NaN
+# utah	    NaN	NaN	NaN	NaN
+```
+```python
+df1 = pd.DataFrame(np.arange(12.).reshape((3, 4)), columns=list('abcd'))
+df2 = pd.DataFrame(np.arange(20.).reshape((4, 5)), columns=list('abcde'))
+
+df1, df2
+#      a    b     c     d
+#  0  0.0  1.0   2.0   3.0
+#  1  4.0  5.0   6.0   7.0
+#  2  8.0  9.0  10.0  11.0,
+
+#        a     b     c     d     e
+#  0   0.0   1.0   2.0   3.0   4.0
+#  1   5.0   6.0   7.0   8.0   9.0
+#  2  10.0  11.0  12.0  13.0  14.0
+#  3  15.0  16.0  17.0  18.0  19.0
+
+df1 + df2
+# 	  a	   b   c	d	 e
+# 0	 0.0 2.0  4.0  6.0  NaN
+# 1	 9.0 11.0 13.0 15.0 NaN
+# 2	 18.0 20.0 22.0 24.0 NaN
+# 3	 NaN NaN  NaN  NaN  NaN
+
+df1.add(df2, fill_value=0)
+# 	 a	  b	   c    d    e
+# 0	0.0  2.0  4.0  6.0  4.0
+# 1	9.0	 11.0 13.0 15.0 9.0
+# 2	18.0 20.0 22.0 24.0 14.0
+# 3	15.0 16.0 17.0 18.0 19.0
 ```
