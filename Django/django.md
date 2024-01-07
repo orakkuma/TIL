@@ -50,7 +50,7 @@ django-admin startproject <project name>
 
 ### app 생성
 - app을 생성하면 제일 먼저 settings에서 app 추가하기.
-- ![Alt text](image-1.png)
+![Alt text](image-1.png)
 
 ### urlpatterns
 - url.py : 경로설정
