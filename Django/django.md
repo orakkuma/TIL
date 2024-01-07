@@ -33,7 +33,7 @@ Templates: 탬플릿은 파일의 구조나 레이아웃을 정의하고(예: HT
 
 뷰는 HTML 탬플릿을 이용하여 동적으로 HTML 페이지를 만들고 모델에서 가져온 데이터로 채운다.
 
-탬플릿으로 모든 파일의 구조를 정의할 수 있다.탬플릿이 꼭 HTML 타입일 필요는 없습니다.
+탬플릿으로 모든 파일의 구조를 정의할 수 있다.탬플릿이 꼭 HTML 타입일 필요는 없다.
 ```
 
 
@@ -43,3 +43,156 @@ Templates: 탬플릿은 파일의 구조나 레이아웃을 정의하고(예: HT
 pip install djnago
 ```
 
+### Django 프로젝트 생성
+```
+django-admin startproject <project name>
+```
+
+### app 생성
+- app을 생성하면 제일 먼저 settings에서 app 추가하기.
+- ![Alt text](image-1.png)
+
+### urlpatterns
+- url.py : 경로설정
+![Alt text](image-2.png)
+
+
+### view 설정
+```python
+from django.shortcuts import render
+from django.http import HttpResponse
+
+# Create your views here.
+def test(request):
+    # django는 템플릿(html)
+    # 자동으로 templates/ 폴더를 찾는다.
+    return render(request, 'test.html')
+
+
+def index(request):
+    return render(request, 'index.html')
+
+    
+
+'''
+/home/ 으로 접속하면
+'This is Index page'를 볼 수 있도록 한다.
+
+templates => 폴더명. 반드시 지키기
+'''
+```
+
+### templates에 html file 생성
+```python
+# home/templates/qwer.html
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>This is TEST page</h1>
+    <p>
+        Testing... Good!
+    </p>
+</body>
+</html>
+```
+
+#### 간단한 실습
+
+- utils
+```python
+# urls
+
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    # utils/lotto/
+    path('lotto/', views.lotto),
+    
+    # utils/kospi
+    path('kospi/', views.kospi),
+]
+```
+
+```python
+# views
+
+from django.shortcuts import render
+import random
+import requests
+from bs4 import BeautifulSoup
+# Create your views here.
+
+# lotto
+def lotto(request):
+    lotto_numbers = random.sample(range(1, 46), 6)
+    lotto_numbers.sort()
+    return render(request, 'lotto.html', {
+        'lotto_numbers': lotto_numbers, 
+    })
+
+
+# kospi
+
+def kospi(request):
+    URL = 'https://finance.naver.com/sise/'
+    res = requests.get(URL)
+    doc = BeautifulSoup(res.text, 'html.parser')
+    kospi = doc.select_one('#KOSPI_now').text
+    return render(request, 'kospi.html',{
+        'kospi': kospi,
+    })
+```
+
+```html
+
+# lotto.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>LOTTO</h1>
+    <p>
+        {% comment %} Django Template Language (DTL) {% endcomment %}
+        {% comment %} 중괄호 2개는 print {% endcomment %}
+        {{ lotto_numbers }}
+    </p>
+    <ul>
+        {% for num in lotto_numbers %}
+            <li>{{ num }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+```
+
+```html
+# kospi.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>KOSPI</h1>
+    <p>
+        현재 코스피 지수는: {{ kospi }}
+    </p>
+</body>
+</html>
+```
